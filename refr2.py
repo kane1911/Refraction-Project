@@ -47,3 +47,5 @@ C=math.asin(sinC)*180/3.14
 print("Critical angle is", round(C,2),"degree from glass to water")
 
 main()  # calls the main function (that calls everything else)
+
+#github test1
