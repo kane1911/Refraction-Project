@@ -3,13 +3,11 @@
 import math  # used for trig and angle conversion methods
 
 
-def refraction_angle(n=1.5,
-                     incidence_angle=40):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
+def refraction_angle(n=1.5, incidence_angle=40):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
     """Returns the angle of refraction from n (the index of refraction between the two media)
     and the angle of incidence (measured in degrees)."""
 
-    r_angle = math.degrees(math.asin(math.sin(math.radians(
-        incidence_angle)) / n))  # rearranged form of Snell's law with angles converted as necessary. asin function works only for radians.
+    r_angle = math.degrees(math.asin(math.sin(math.radians(incidence_angle)) / n))  # rearranged form of Snell's law with angles converted as necessary. asin function works only for radians.
 
     return round(r_angle, 2)  # rounds to 2 d.p.
 
@@ -19,6 +17,9 @@ def main():
 
     n = input("Enter the index of refraction between the two media: ")
     incidence_angle = input("Enter the angle of incidence (in degrees): ")
+    
+    # while loop is needed here.
+    
     # ----------------------------------
     # this block allows the user to use the default values of n and incidence angle by just pressing Enter
 
@@ -34,17 +35,17 @@ def main():
     print("Angle of refraction:", output, "degrees")
 
     #Kane Langmead 15/3/2021
-#Given m1 is glass and m2 is water
-m1=1.5
-m2=1.33
+# #Given m1 is glass and m2 is water
+# m1=1.5
+# m2=1.33
 
-#Calculation of critical
-u1=m1/m2
-sinC=1/u1
-C=math.asin(sinC)*180/3.14
+# #Calculation of critical
+# u1=m1/m2
+# sinC=1/u1
+# C=math.asin(sinC)*180/3.14
 
-#Result of m1/m2
-print("Critical angle is", round(C,2),"degree from glass to water")
+# #Result of m1/m2
+# print("Critical angle is", round(C,2),"degree from glass to water")
 
 main()  # calls the main function (that calls everything else)
 
