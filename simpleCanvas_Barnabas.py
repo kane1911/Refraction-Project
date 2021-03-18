@@ -35,9 +35,6 @@ def main():
     if n.isalpha() or incidence_angle.isalpha(): # if either of the inputs are letters
         tkinter.messagebox.showwarning(title="Letter(s) entered", message="Please enter valid numbers for the incidence angle and index of refraction.") # displays warning pop-up window
     
-    # if n or incidence angle is a symbol, or space.
-        # tkinter.messagebox.showwarning(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
-    
     else: # if both inputs are digits of decimals
         try:
             output = refraction_angle(float(n), float(incidence_angle))
