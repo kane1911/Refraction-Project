@@ -1,17 +1,19 @@
+# Updated 18/03/2021 by Barnabas
 import tkinter
 import math
+import tkinter.messagebox
 
 root = tkinter.Tk()
 root.title("Calculating Angle of Refraction")
 
 incidence_label = tkinter.Label(root, text = "Incidence Angle:")
 incidence_label.grid(row = 1, column = 1, sticky = "E")
-incidence_input = tkinter.Entry(root)
+incidence_input = tkinter.Spinbox(root, from_=0, to=90, wrap=True) # Spinbox only accepts from a certain range of inputs (0 to 90 degrees)
 incidence_input.grid(row = 1, column = 2)
 
 index_label = tkinter.Label(root, text = "Index of Refraction:")
 index_label.grid(row = 2, column = 1, sticky = "E")
-index_input = tkinter.Entry(root)
+index_input = tkinter.Spinbox(root, from_=0.1, to=100, increment=0.1, wrap=True) # # Spinbox only accepts from a certain range of inputs of index of refraction (0 to 100 in increments of 0.1)
 index_input.grid(row = 2, column = 2)
 
 def refraction_angle(n=1.5,
@@ -30,14 +32,23 @@ def main():
     n = index_input.get()
     incidence_angle = incidence_input.get()
 
-    output = refraction_angle(float(n), float(incidence_angle))
+    if n.isalpha() or incidence_angle.isalpha(): # if either of the inputs are letters
+        tkinter.messagebox.showwarning(title="Letter(s) entered", message="Please enter valid numbers for the incidence angle and index of refraction.") # displays warning pop-up window
+    
+    # if n or incidence angle is a symbol, or space.
+        # tkinter.messagebox.showwarning(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
+    
+    else: # if both inputs are digits of decimals
+        output = refraction_angle(float(n), float(incidence_angle))
 
-    calc = tkinter.Label(root, text = output)
-    calc.grid(row = 3, column = 3)
+        calc = tkinter.Label(root, text = output)
+        calc.grid(row = 3, column = 3)
+    
 
 
 calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main)
 calculate_button.grid(row = 3, column = 2)
+
 
 
 root.mainloop()
