@@ -14,7 +14,8 @@ index_label.grid(row = 2, column = 1, sticky = "E")
 index_input = tkinter.Entry(root)
 index_input.grid(row = 2, column = 2)
 
-def refraction_angle(n, incidence_angle):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
+def refraction_angle(n=1.5,
+                     incidence_angle=40):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
     """Returns the angle of refraction from n (the index of refraction between the two media)
     and the angle of incidence (measured in degrees)."""
 
