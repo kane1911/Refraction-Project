@@ -36,7 +36,7 @@ def main():
     calc.grid(row = 3, column = 3)
 
 
-calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main())
+calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main)
 calculate_button.grid(row = 3, column = 2)
 
 
