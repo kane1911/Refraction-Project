@@ -39,10 +39,13 @@ def main():
         # tkinter.messagebox.showwarning(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
     
     else: # if both inputs are digits of decimals
-        output = refraction_angle(float(n), float(incidence_angle))
+        try:
+            output = refraction_angle(float(n), float(incidence_angle))
 
-        calc = tkinter.Label(root, text = output)
-        calc.grid(row = 3, column = 3)
+            calc = tkinter.Label(root, text = output)
+            calc.grid(row = 3, column = 3)
+        except ValueError:
+            tkinter.messagebox.showwarning(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
     
 
 
