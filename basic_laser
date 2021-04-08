@@ -1,0 +1,57 @@
+import math
+import tkinter
+
+root = tkinter.Tk()
+my_canvas = tkinter.Canvas(root, width = 500, height = 500)
+my_canvas.grid(row = 1, column = 3)
+
+x1 = 250
+x2 = 250
+y1 = 0
+y2 = 500
+
+my_canvas.create_line(x1, y1, x2, y2)
+
+x3 = 0
+x4 = 500
+y3 = 250
+y4 = 250
+
+my_canvas.create_line(x3, y3, x4, y4)
+
+# incident angle laser
+
+def ind_laser_x(ind_angle):
+    x = 250 - (math.cos(math.radians(ind_angle)) * 250)
+
+    return x
+
+
+def ind_laser_y(ind_angle):
+    y = 250 - (math.sin(math.radians(ind_angle)) * 250)
+
+    return y
+
+my_canvas.create_line(ind_laser_x(40), ind_laser_y(40), 250, 250)
+
+# refraction angle laser
+
+def refr_laser_x(refr_angle):
+    x = 250 + (math.cos(math.radians(refr_angle)) * 250)
+
+    return x
+
+def refr_laser_y(refr_angle):
+    y = 250 + (math.sin(math.radians(refr_angle)) * 250)
+
+    return y
+
+my_canvas.create_line(250, 250, refr_laser_x(25.37), refr_laser_y(25.37))
+
+
+# laser
+
+def laser_start(x):
+
+
+root.mainloop()
