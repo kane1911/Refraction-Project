@@ -6,7 +6,7 @@ import tkinter.messagebox
 
 root = tkinter.Tk()
 root.title("Calculating Angle of Refraction")
-
+root.geometry("400x400")
 
 def refraction_angle(n=1.5,
                      incidence_angle=40):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
@@ -34,7 +34,7 @@ def main():
             output = refraction_angle(float(n), float(incidence_angle))
 
             calc = tkinter.Label(root, text = output)
-            calc.grid(row = 5, column = 2)
+            calc.grid(row = 6, column = 2)
         except ValueError:
             tkinter.messagebox.showerror(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
 
@@ -56,7 +56,6 @@ indexmedium1 = ttk.Combobox(root, width=18, textvariable=n1)
 indexmedium1['values'] = (' Glass',' Air',' Water')
 indexmedium1['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
 indexmedium1.grid(column=2, row=3)
-
 indexmedium1.current(1) # Shows Air as default
 
 
@@ -66,15 +65,14 @@ indexmedium2 = ttk.Combobox(root, width=18, textvariable=n2)
 indexmedium2['values'] = (' Glass',' Air',' Water','Amber')
 indexmedium2['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
 indexmedium2.grid(column=2, row=4)
-
 indexmedium2.current(0) # Shows Glass as default
 
 
 refraction_label = tkinter.Label(root, text="Angle of Refraction (degrees):")
-refraction_label.grid(row=5, column=1, sticky = "E")
+refraction_label.grid(row=6, column=1, sticky = "E")
 
 calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main)
-calculate_button.grid(row = 8, column = 2)
+calculate_button.grid(row = 5, column = 2)
 
 # First attempt at creating a drop-down menu:
 
