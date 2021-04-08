@@ -1,37 +1,12 @@
-# Updated 18/03/2021 by Barnabas
+# Updated 08/04/2021 by Barnabas using Kane's Combobox code
 import tkinter
+from tkinter import ttk
 import math
 import tkinter.messagebox
 
 root = tkinter.Tk()
 root.title("Calculating Angle of Refraction")
 
-# Attempt at creating a drop-down menu:
-
-# i_medium_label = tkinter.Label(root, text="Incidence Medium:")
-# i_medium_label.grid(row=5, column=1)
-
-# variable = tkinter.StringVar(root)
-# variable.set("Incidence Medium")
-# i_medium_input = tkinter.OptionMenu(root, variable, "Air", "Water", "Glass")
-# i_medium_input.grid(row=5, column=2)
-
-# i_med = tkinter.Label(root, text=variable.get())
-# i_med.grid(row=6,column=2)
-# ------------------------------------------
-
-incidence_label = tkinter.Label(root, text = "Incidence Angle:")
-incidence_label.grid(row = 1, column = 1, sticky = "E")
-incidence_input = tkinter.Spinbox(root, from_=0, to=90, wrap=True) # Spinbox only accepts from a certain range of inputs (0 to 90 degrees)
-incidence_input.grid(row = 1, column = 2)
-
-index_label = tkinter.Label(root, text = "Index of Refraction:")
-index_label.grid(row = 2, column = 1, sticky = "E")
-index_input = tkinter.Spinbox(root, from_=0.1, to=100, increment=0.1, wrap=True) # # Spinbox only accepts from a certain range of inputs of index of refraction (0 to 100 in increments of 0.1)
-index_input.grid(row = 2, column = 2)
-
-refraction_label = tkinter.Label(root, text="Angle of Refraction (degrees):")
-refraction_label.grid(row=4, column=1, sticky = "E")
 
 def refraction_angle(n=1.5,
                      incidence_angle=40):  # function has default values of index of refraction = 1.5 (air to glass) and incidence angle = 40 degrees
@@ -59,15 +34,60 @@ def main():
             output = refraction_angle(float(n), float(incidence_angle))
 
             calc = tkinter.Label(root, text = output)
-            calc.grid(row = 4, column = 2)
+            calc.grid(row = 5, column = 2)
         except ValueError:
             tkinter.messagebox.showerror(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
-    
 
+# -------------Window widgets and layout ---------------------------    
+incidence_label = tkinter.Label(root, text = "Incidence Angle:")
+incidence_label.grid(row = 1, column = 1, sticky = "E")
+incidence_input = tkinter.Spinbox(root, from_=0, to=90, wrap=True) # Spinbox only accepts from a certain range of inputs (0 to 90 degrees)
+incidence_input.grid(row = 1, column = 2)
+
+index_label = tkinter.Label(root, text = "Index of Refraction:")
+index_label.grid(row = 2, column = 1, sticky = "E")
+index_input = tkinter.Spinbox(root, from_=0.1, to=100, increment=0.1, wrap=True) # # Spinbox only accepts from a certain range of inputs of index of refraction (0 to 100 in increments of 0.1)
+index_input.grid(row = 2, column = 2)
+
+# --------Combobox drop down list-----
+ttk.Label(text="Select Index Medium:").grid(column=1,row=3, sticky="E")
+n1 = tkinter.StringVar()
+indexmedium1 = ttk.Combobox(root, width=18, textvariable=n1)
+indexmedium1['values'] = (' Glass',' Air',' Water')
+indexmedium1['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
+indexmedium1.grid(column=2, row=3)
+
+indexmedium1.current(1) # Shows Air as default
+
+
+ttk.Label(text="Select Refraction Medium:").grid(column=1,row=4, sticky="E")
+n2 = tkinter.StringVar()
+indexmedium2 = ttk.Combobox(root, width=18, textvariable=n2)
+indexmedium2['values'] = (' Glass',' Air',' Water','Amber')
+indexmedium2['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
+indexmedium2.grid(column=2, row=4)
+
+indexmedium2.current(0) # Shows Glass as default
+
+
+refraction_label = tkinter.Label(root, text="Angle of Refraction (degrees):")
+refraction_label.grid(row=5, column=1, sticky = "E")
 
 calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main)
-calculate_button.grid(row = 3, column = 2)
+calculate_button.grid(row = 8, column = 2)
 
+# First attempt at creating a drop-down menu:
 
+# i_medium_label = tkinter.Label(root, text="Incidence Medium:")
+# i_medium_label.grid(row=5, column=1)
+
+# variable = tkinter.StringVar(root)
+# variable.set("Incidence Medium")
+# i_medium_input = tkinter.OptionMenu(root, variable, "Air", "Water", "Glass")
+# i_medium_input.grid(row=5, column=2)
+
+# i_med = tkinter.Label(root, text=variable.get())
+# i_med.grid(row=6,column=2)
+# ------------------------------------------
 
 root.mainloop()
