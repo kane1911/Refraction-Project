@@ -20,6 +20,8 @@ def refraction_angle(n=1.5,
     except ValueError:
         tkinter.messagebox.showerror(title="Domain error", message="Invalid combination of incidence angle and index of refraction.")
 
+
+
 def main():
     """Gets user input, calls the refraction_angle function, and displays the output."""
 
@@ -38,6 +40,7 @@ def main():
         except ValueError:
             tkinter.messagebox.showerror(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
 
+
 # -------------Window widgets and layout ---------------------------    
 incidence_label = tkinter.Label(root, text = "Incidence Angle:")
 incidence_label.grid(row = 1, column = 1, sticky = "E")
@@ -53,26 +56,29 @@ index_input.grid(row = 2, column = 2)
 ttk.Label(text="Select Index Medium:").grid(column=1,row=3, sticky="E")
 n1 = tkinter.StringVar()
 indexmedium1 = ttk.Combobox(root, width=18, textvariable=n1)
-indexmedium1['values'] = (' Glass',' Air',' Water')
+indexmedium1['values'] = ('Air', 'Glass', 'Water')
 indexmedium1['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
 indexmedium1.grid(column=2, row=3)
 indexmedium1.current(1) # Shows Air as default
 
 
+
 ttk.Label(text="Select Refraction Medium:").grid(column=1,row=4, sticky="E")
 n2 = tkinter.StringVar()
 indexmedium2 = ttk.Combobox(root, width=18, textvariable=n2)
-indexmedium2['values'] = (' Glass',' Air',' Water','Amber')
+indexmedium2['values'] = ('Air', 'Glass', 'Water', 'Amber', 'Diamond')
 indexmedium2['state'] = 'readonly' # means the user cannot directly enter a value into the combobx see:https://www.pythontutorial.net/tkinter/tkinter-combobox/
 indexmedium2.grid(column=2, row=4)
 indexmedium2.current(0) # Shows Glass as default
 
 
+calculate_button = tkinter.Button(root, text = "Calculate", command = main)
+calculate_button.grid(row = 5, column = 2)
+
 refraction_label = tkinter.Label(root, text="Angle of Refraction (degrees):")
 refraction_label.grid(row=6, column=1, sticky = "E")
 
-calculate_button = tkinter.Button(root, text = "Calculate Refraction Angle", command = main)
-calculate_button.grid(row = 5, column = 2)
+
 
 # First attempt at creating a drop-down menu:
 
