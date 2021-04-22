@@ -44,6 +44,8 @@ def find_v(abs_n):
     return v
 
 
+# def clear_canvas():
+#     my_canvas.delete(tkinter.ALL)
 
 def main():
     """Combines user input from the Spinbox and Comboboxes (drop-down menus) with the refraction_angle function, and displays the output."""
@@ -68,10 +70,13 @@ def main():
         tkinter.messagebox.showerror(title="Space or symbol entered", message="Invalid input.") # displays warning pop-up window
     
     # -------------Draws laser on canvas -------------
-    my_canvas.create_line(ind_laser_x(float(incidence_input.get())), ind_laser_y(float(incidence_input.get())), 250, 250) # incidence ray ending at our origin (250,250)
+    my_canvas.create_line(ind_laser_x(float(incidence_input.get()), 1.25), ind_laser_y(float(incidence_input.get()), 1.25), ind_laser_x(float(incidence_input.get())), ind_laser_y(float(incidence_input.get())), width=12) # the laser itself
+
+    my_canvas.create_line(ind_laser_x(float(incidence_input.get())), ind_laser_y(float(incidence_input.get())), 250, 250, fill="red", width=2) # incidence ray ending at our origin (250,250)
     
-    my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle)) # refracted ray beginning at our origin (0,0)
+    my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle), width=2) # refracted ray beginning at our origin (0,0)
     
+
     # ----------Widgets showing additional calculations that only display when the Calculate button is pressed:
     
     index_label = tkinter.Label(frame, text="Refractive index from {} to {}:".format(indexmedium1.get(), indexmedium2.get())) 
@@ -102,7 +107,7 @@ frame.grid(row=0,column=0, sticky="n") # sticky = "n" moves aligns widgets to th
 
 incidence_label = tkinter.Label(frame, text = "Incidence Angle (°):")
 incidence_label.grid(row = 1, column = 1, sticky = "E")
-incidence_input = tkinter.Spinbox(frame, from_=-90, to=90, wrap=True) # Spinbox only accepts from a certain range of inputs (-90 to 90 degrees)
+incidence_input = tkinter.Spinbox(frame, from_=0, to=90, wrap=True) # Spinbox only accepts from a certain range of inputs (-90 to 90 degrees)
 incidence_input.grid(row = 1, column = 2)
 
 ttk.Label(frame, text="Select Incidence Medium:").grid(row=2, column=1, sticky="E") # incidence medium drop down menu
@@ -146,28 +151,26 @@ y4 = 250
 my_canvas.create_line(x3, y3, x4, y4) # x-axis
 
 
-def ind_laser_x(ind_angle):
-    """Calcs incident angle laser x-coord"""
-    x = 250 - (math.sin(math.radians(ind_angle)) * 250) # switched cos to sin so the angle of incidence is relative to the normal
+def ind_laser_x(ind_angle, scale=1):
+    """Calcs incident angle laser x-coord. The scale parameter is used to draw the laser source."""
+    x = 250 - (math.sin(math.radians(ind_angle)) * 200 * scale) # switched cos to sin so the angle of incidence is relative to the normal
     return x
 
 
-def ind_laser_y(ind_angle):
-    """Calcs incident angle laser y-coord"""
-    y = 250 - (math.cos(math.radians(ind_angle)) * 250) # switched to cos so the angle of incidence is relative to the normal
+def ind_laser_y(ind_angle, scale=1):
+    """Calcs incident angle laser y-coord. The scale parameter is used to draw the laser source."""
+    y = 250 - (math.cos(math.radians(ind_angle)) * 200*scale) # switched to cos so the angle of incidence is relative to the normal
     return y
-
-#my_canvas.create_line(ind_laser_x(40), ind_laser_y(40), 250, 250) # incidence ray ending at our origin (250,250)
 
 
 def refr_laser_x(refr_angle):
     """Calcs refraction angle laser x-coord."""
-    x = 250 + (math.sin(math.radians(refr_angle)) * 250) # switched cos to sin so that the refraction angle is relative to the normal
+    x = 250 + (math.sin(math.radians(refr_angle)) * 200) # switched cos to sin so that the refraction angle is relative to the normal
     return x
 
 def refr_laser_y(refr_angle):
     """Calcs refraction angle laser y-coord."""
-    y = 250 + (math.cos(math.radians(refr_angle)) * 250) # switched cos to sin so that the refraction angle is relative to the normal
+    y = 250 + (math.cos(math.radians(refr_angle)) * 200) # switched cos to sin so that the refraction angle is relative to the normal
     return y
 
 
