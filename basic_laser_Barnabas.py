@@ -49,6 +49,8 @@ def refr_laser_y(refr_angle):
 my_canvas.create_line(250, 250, refr_laser_x(25.37), refr_laser_y(25.37)) # refracted ray beginning at our origin (0,0)
 
 
+my_canvas.create_line(ind_laser_x(40)-50, ind_laser_y(40)-50, ind_laser_x(40), ind_laser_y(40), width=50) # laser
+
 def start_laser():
     pass
     
