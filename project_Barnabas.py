@@ -1,18 +1,16 @@
-import tkinter
-from tkinter import ttk
 import math
-from tkinter import messagebox
-import matplotlib.pyplot as plt
+import tkinter
+from tkinter import messagebox, Tk
+from tkinter import ttk
 
-root = tkinter.Tk()
+root: Tk = tkinter.Tk()
 root.title("Group 19: Angle of Refraction Calculator")
 root.geometry("950x600")  # window size
 
 
-
 def refraction_angle(n, incidence_angle):
     """Returns the angle of refraction from n (the index of refraction between the two media)
-    and the angle of incidence (measured in degrees)."""
+     and the angle of incidence (measured in degrees)."""
 
     try:
         r_angle = math.degrees(math.asin(math.sin(math.radians(
@@ -50,7 +48,7 @@ def find_v(abs_n):
     '''This function will calculate the v (velocity of light) by taking the absolute refractive index from the user's medium selections.'''
     # Calculate v
     v = round(300000000 / float(abs_n), 3)
-    v_formatted = round(v/(10**6), 1) # reformats the velocity. 300000000 m/s becomes 300.0 x 10^6 m/s
+    v_formatted = round(v / (10 ** 6), 1)  # reformats the velocity. 300000000 m/s becomes 300.0 x 10^6 m/s
     return v_formatted
 
 
@@ -64,10 +62,9 @@ def clear_canvas():
     my_canvas.create_line(0, 250, 500, 250)  # x-axis
 
 
-
 def scroll_bar(angle):
     """FUnction called each time the scrollbar is moved. the angle parameter does nothing, but has to be there else there is this error:
-    'TypeError: scroll_bar() takes 0 positional arguments but 1 was given'."""
+     'TypeError: scroll_bar() takes 0 positional arguments but 1 was given'."""
 
     scrollbar_angle.set(str(scrollbar.get()))  # sets the spinbox with the value of the scrollbar
     clear_canvas()  # calls the function that clears the canvas and draws the axes
@@ -95,11 +92,7 @@ def scroll_bar(angle):
         tkinter.messagebox.showerror(title="Space or symbol entered",
                                      message="Invalid input.")  # displays warning pop-up window
 
-
-
-
-
- # -------------Draws laser on canvas -------------
+    # -------------Draws laser on canvas -------------
     my_canvas.create_line(ind_laser_x(float(scrollbar.get()), 1.25), ind_laser_y(float(scrollbar.get()), 1.25),
                           ind_laser_x(float(scrollbar.get())), ind_laser_y(float(scrollbar.get())),
                           width=12)  # the laser itself
@@ -110,7 +103,8 @@ def scroll_bar(angle):
     my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle),
                           width=2)  # refracted ray beginning at our origin (0,0)
 
-    tkinter.Button(frame, text="i", command=open_info_index).grid(row=6, column=4)  # shows button when 'calculat' is pressed
+    tkinter.Button(frame, text="i", command=open_info_index).grid(row=6,
+                                                                  column=4)  # shows button when 'calculat' is pressed
     tkinter.Button(frame, text="i", command=open_info_velocity1).grid(row=7,
                                                                       column=4)  # shows button when 'calculat' is pressed
     tkinter.Button(frame, text="i", command=open_info_velocity2).grid(row=8,
@@ -142,15 +136,15 @@ def scroll_bar(angle):
 
 # ------Canvas and scrollbar--------------------------------------------------------------------------------------------------------------------
 
-my_canvas = tkinter.Canvas(root, width = 500, height = 500, background = "white") # canvas
-my_canvas.grid(row = 0, column = 1)
-scrollbar = tkinter.Scale(root, from_=0, to=90, length=500, tickinterval=10, orient="horizontal", command=scroll_bar) #see https://www.python-course.eu/tkinter_sliders.php
-scrollbar.grid(row=1, column = 1)
+my_canvas = tkinter.Canvas(root, width=500, height=500, background="white")  # canvas
+my_canvas.grid(row=0, column=1)
+scrollbar = tkinter.Scale(root, from_=0, to=90, length=500, tickinterval=10, orient="horizontal",
+                          command=scroll_bar)  # see https://www.python-course.eu/tkinter_sliders.php
+scrollbar.grid(row=1, column=1)
 
 # semi-circle as refraction medium
 
-my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill="light blue")
-
+my_canvas.create_arc(250 - 100, 250 - 100, 250 + 100, 250 + 100, start=0, extent=-180, fill="light blue")
 
 x1 = 250
 x2 = 250
@@ -217,7 +211,6 @@ def main():
         tkinter.messagebox.showerror(title="Space or symbol entered",
                                      message="Invalid input.")  # displays warning pop-up window
 
-
     # -------------Draws laser on canvas -------------
     my_canvas.create_line(ind_laser_x(float(incidence_input.get()), 1.25),
                           ind_laser_y(float(incidence_input.get()), 1.25), ind_laser_x(float(incidence_input.get())),
@@ -241,13 +234,15 @@ def main():
     i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium1.get()))
     i_medium_v_label.grid(row=7, column=1, sticky="E")
 
-    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
+    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(
+        indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
     i_medium_v.grid(row=7, column=2)
 
     i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium2.get()))
     i_medium_v_label.grid(row=8, column=1, sticky="E")
 
-    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium2.get()))) + " x 10^6 m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
+    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(
+        indexmedium2.get()))) + " x 10^6 m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
     i_medium_v.grid(row=8, column=2)
 
 
@@ -284,7 +279,9 @@ indexmedium2[
 indexmedium2.grid(row=3, column=2)
 indexmedium2.current(1)  # Shows Glass as default
 
-calculate_button = tkinter.Button(frame, text="Calculate", command=lambda:[main(), button_info_index(), button_info_velocity1(), button_info_velocity2()])  # Calculate button runs the main() function
+calculate_button = tkinter.Button(frame, text="Calculate",
+                                  command=lambda: [main(), button_info_index(), button_info_velocity1(),
+                                                   button_info_velocity2()])  # Calculate button runs the main() function
 calculate_button.grid(row=4, column=2)
 
 refraction_label = tkinter.Label(frame, text="Angle of Refraction:")
@@ -293,44 +290,51 @@ refraction_label.grid(row=5, column=1, sticky="E")
 clear_button = tkinter.Button(frame, text="Clear canvas", command=clear_canvas)
 clear_button.grid(row=9, column=2)
 
+
 # info buttons to show calculations
 
 def open_info_angle():
-    messagebox.showinfo("Calculations", "Hello info")
+    messagebox.showinfo("Calculations", "The angle between a refracted ray and the normal drawn"
+                                        "at the point of incidence to the interface at which "
+                                        "refraction occurs.")
 
-tkinter.Button(frame, text = "i", command = open_info_angle).grid(row = 5, column = 4)
 
+tkinter.Button(frame, text="i", command=open_info_angle).grid(row=5, column=4)
 
 
 def button_info_index():
-    tkinter.Button(frame, text = "i", command = open_info_index).grid(row = 6, column = 4) # shows button when 'calculat' is pressed
+    messagebox.showinfo("Calculations", "The angle  to the interface at which "
+                                        "refraction occurs.")
 
-def open_info_index():
+
+tkinter.Button(frame, text="i", command="open_info_index").grid(row=6, column=4)  # shows button when'calculat' is pressed
+
+
+def open_info_index(plt=None):
     plt.figure()
-    plt.text(0.5, 0.5, r"$\frac{\sin(\theta_i)}{\sin(\theta_r)}$" + " = " r"$\frac{c_i}{c_r}$" + " = " + "n", fontsize=20)
-    plt.text(1, 1, r"$\frac{n_i}{n_r}$" + " = " + r"$\ _i$" + r"$\n_r$", fontsize = 20)
+    plt.text(0.5, 0.5, r"$\frac{\sin(\theta_i)}{\sin(\theta_r)}$" + " = " r"$\frac{c_i}{c_r}$" + " = " + "n",
+             fontsize=20)
+    plt.text(1, 1, r"$\frac{n_i}{n_r}$" + " = " + r"$\ _i$" + r"$\n_r$", fontsize=20)
     plt.axis(False)
     plt.show()
 
 
-
-
-
 def button_info_velocity1():
-    tkinter.Button(frame, text="i", command=open_info_velocity1).grid(row=7, column=4) # shows button when 'calculat' is pressed
+    tkinter.Button(frame, text="i", command=open_info_velocity1).grid(row=7,
+                                                                      column=4)  # shows button when 'calculat' is pressed
+
 
 def open_info_velocity1():
-    messagebox.showinfo("Calculations", "Hello info")
+    messagebox.showinfo("Calculations", " Gimme")
 
 
 def button_info_velocity2():
-    tkinter.Button(frame, text="i", command=open_info_velocity2).grid(row=8, column=4) # shows button when 'calculat' is pressed
+    tkinter.Button(frame, text="i", command=open_info_velocity2).grid(row=8,
+                                                                      column=4)  # shows button when 'calculat' is pressed
+
 
 def open_info_velocity2():
     messagebox.showinfo("Calculations", "Hello info")
-
-
-
 
 
 root.mainloop()
