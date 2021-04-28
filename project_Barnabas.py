@@ -58,12 +58,17 @@ def clear_canvas():
     """Clears canvas and redraws coordinate axes."""
     my_canvas.delete(tkinter.ALL)
 
-    my_canvas.create_arc(250 - 100, 250 - 100, 250 + 100, 250 + 100, start=0, extent=-180,
-                         fill="light blue")  # refraction medium
+    ####my_canvas.create_arc(250 - 100, 250 - 100, 250 + 100, 250 + 100, start=0, extent=-180, fill="light blue")  # refraction medium
+    my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # redraws semicircle with the colour of the selected refraction medium 
     my_canvas.create_line(250, 0, 250, 500)  # y-axis
     my_canvas.create_line(0, 250, 500, 250)  # x-axis
 
 
+def semicircle_colour(r_medium):
+    """Returns the colour of the refraction medium as an appropriate string. The r_medium parameter must be set to indexmedium2.get()."""
+    medium_colour = {'Air': 'snow', 'Glass': 'light blue', 'Water': 'royal blue', 'Amber': 'goldenrod1', 'Diamond': 'light grey'} # tkinter colour chart: http://www.science.smith.edu/dftwiki/index.php/Color_Charts_for_TKinter
+    r_colour = medium_colour[r_medium]
+    return r_colour
 
 def scroll_bar(angle):
     """FUnction called each time the scrollbar is moved. the angle parameter does nothing, but has to be there else there is this error:
@@ -81,10 +86,6 @@ def scroll_bar(angle):
             tkinter.messagebox.showerror(title="Letter(s) entered",
                                          message="Please enter a valid incidence angle.")  # displays error pop-up window
 
-        elif not (0 <= float(incidence_angle) <= 90):  # if the incidence angle entered is not in the interval [0, 90]
-            tkinter.messagebox.showerror(title="Angle out of range",
-                                         message="Please enter an incidence angle between 0° and 90°.")  # displays warning pop-up window
-
         else:  # if both inputs are digits or decimals between 0° and 90°
             r_angle = refraction_angle(n, float(incidence_angle))
 
@@ -95,11 +96,9 @@ def scroll_bar(angle):
         tkinter.messagebox.showerror(title="Space or symbol entered",
                                      message="Invalid input.")  # displays warning pop-up window
 
-
-
-
-
- # -------------Draws laser on canvas -------------
+    #------------------
+    my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium
+    # -------------Draws laser on canvas -------------
     my_canvas.create_line(ind_laser_x(float(scrollbar.get()), 1.25), ind_laser_y(float(scrollbar.get()), 1.25),
                           ind_laser_x(float(scrollbar.get())), ind_laser_y(float(scrollbar.get())),
                           width=12)  # the laser itself
@@ -129,14 +128,14 @@ def scroll_bar(angle):
     i_medium_v_label.grid(row=7, column=1, sticky="E")
 
     i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(
-        indexmedium1.get()))) + " m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
+        indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
     i_medium_v.grid(row=7, column=2)
 
     i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium2.get()))
     i_medium_v_label.grid(row=8, column=1, sticky="E")
 
     i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(
-        indexmedium2.get()))) + " m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
+        indexmedium2.get()))) + " x 10^6 m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
     i_medium_v.grid(row=8, column=2)
 
 
@@ -144,12 +143,15 @@ def scroll_bar(angle):
 
 my_canvas = tkinter.Canvas(root, width = 500, height = 500, background = "white") # canvas
 my_canvas.grid(row = 0, column = 1)
-scrollbar = tkinter.Scale(root, from_=0, to=90, length=500, tickinterval=10, orient="horizontal", command=scroll_bar) #see https://www.python-course.eu/tkinter_sliders.php
+scrollbar = tkinter.Scale(root, from_=-90, to=90, length=500, tickinterval=20, orient="horizontal", command=scroll_bar) #see https://www.python-course.eu/tkinter_sliders.php
 scrollbar.grid(row=1, column = 1)
+
+scrollbar_label = tkinter.Label(root, text="Degrees")
+scrollbar_label.grid(row=2, column = 1)
 
 # semi-circle as refraction medium
 
-my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill="light blue")
+##### my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill="light blue")
 
 
 x1 = 250
@@ -199,58 +201,59 @@ def main():
     incidence_angle = incidence_input.get()  # gets incidence angle from the user's input in the Spinbox
 
     try:
-        if incidence_angle.isalpha():  # if the angle input contains letters
-            tkinter.messagebox.showerror(title="Letter(s) entered",
-                                         message="Please enter a valid incidence angle.")  # displays error pop-up window
+        if not (-90 <= float(incidence_angle) <= 90):  # if the incidence angle entered is not in the interval [-90, 90]
+            tkinter.messagebox.showerror(title="Angle out of range", message="Please enter an incidence angle between -90° and 90°.")  # displays warning pop-up window
+        else:
+            if incidence_angle.isalpha():  # if the angle input contains letters
+                tkinter.messagebox.showerror(title="Letter(s) entered",
+                                            message="Please enter a valid incidence angle.")  # displays error pop-up window
 
-        elif not (0 <= float(incidence_angle) <= 90):  # if the incidence angle entered is not in the interval [0, 90]
-            tkinter.messagebox.showerror(title="Angle out of range",
-                                         message="Please enter an incidence angle between 0° and 90°.")  # displays warning pop-up window
+            else:  # if both inputs are digits or decimals between 0° and 90°
+                r_angle = refraction_angle(n, float(incidence_angle))
 
-        else:  # if both inputs are digits or decimals between 0° and 90°
-            r_angle = refraction_angle(n, float(incidence_angle))
+                calculated_angle = tkinter.Label(frame, text=str(r_angle) + "°")  # concatenates degree symbol to
+                calculated_angle.grid(row=5, column=2)
+            
+            # --------------------------
+            my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium 
+            # -------------Draws laser on canvas -------------
+            my_canvas.create_line(ind_laser_x(float(incidence_input.get()), 1.25),
+                                ind_laser_y(float(incidence_input.get()), 1.25), ind_laser_x(float(incidence_input.get())),
+                                ind_laser_y(float(incidence_input.get())), width=12)  # the laser itself
 
-            calculated_angle = tkinter.Label(frame, text=str(r_angle) + "°")  # concatenates degree symbol to
-            calculated_angle.grid(row=5, column=2)
+            my_canvas.create_line(ind_laser_x(float(incidence_input.get())), ind_laser_y(float(incidence_input.get())), 250,
+                                250, fill="red", width=2)  # incidence ray ending at our origin (250,250)
+
+            my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle),
+                                width=2)  # refracted ray beginning at our origin (0,0)
+
+            # ----------Widgets showing additional calculations that only display when the Calculate button is pressed:
+
+            index_label = tkinter.Label(frame,
+                                        text="Refractive index from {} to {}:".format(indexmedium1.get(), indexmedium2.get()))
+            index_label.grid(row=6, column=1)
+
+            n_label = tkinter.Label(frame, text=str(n))  # displays the index of refractin between the two selected media
+            n_label.grid(row=6, column=2)
+
+            i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium1.get()))
+            i_medium_v_label.grid(row=7, column=1, sticky="E")
+
+            i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
+            i_medium_v.grid(row=7, column=2)
+
+            i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium2.get()))
+            i_medium_v_label.grid(row=8, column=1, sticky="E")
+
+            i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium2.get()))) + " x 10^6 m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
+            i_medium_v.grid(row=8, column=2)
 
     except ValueError:
         tkinter.messagebox.showerror(title="Space or symbol entered",
-                                     message="Invalid input.")  # displays warning pop-up window
+                                    message="Invalid input.")  # displays warning pop-up window
 
 
-    # -------------Draws laser on canvas -------------
-    my_canvas.create_line(ind_laser_x(float(incidence_input.get()), 1.25),
-                          ind_laser_y(float(incidence_input.get()), 1.25), ind_laser_x(float(incidence_input.get())),
-                          ind_laser_y(float(incidence_input.get())), width=12)  # the laser itself
-
-    my_canvas.create_line(ind_laser_x(float(incidence_input.get())), ind_laser_y(float(incidence_input.get())), 250,
-                          250, fill="red", width=2)  # incidence ray ending at our origin (250,250)
-
-    my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle),
-                          width=2)  # refracted ray beginning at our origin (0,0)
-
-    # ----------Widgets showing additional calculations that only display when the Calculate button is pressed:
-
-    index_label = tkinter.Label(frame,
-                                text="Refractive index from {} to {}:".format(indexmedium1.get(), indexmedium2.get()))
-    index_label.grid(row=6, column=1)
-
-    n_label = tkinter.Label(frame, text=str(n))  # displays the index of refractin between the two selected media
-    n_label.grid(row=6, column=2)
-
-    i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium1.get()))
-    i_medium_v_label.grid(row=7, column=1, sticky="E")
-
-    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
-    i_medium_v.grid(row=7, column=2)
-
-    i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium2.get()))
-    i_medium_v_label.grid(row=8, column=1, sticky="E")
-
-    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium2.get()))) + " x 10^6 m/s")  # displays the velocity of light in the refraction medium based on its absolute refractive index
-    i_medium_v.grid(row=8, column=2)
-
-
+    
 # -------------Window widgets in frame:
 
 frame = tkinter.Frame(
@@ -292,6 +295,8 @@ refraction_label.grid(row=5, column=1, sticky="E")
 
 clear_button = tkinter.Button(frame, text="Clear canvas", command=clear_canvas)
 clear_button.grid(row=9, column=2)
+quit_button = tkinter.Button(frame, text="Quit app", command=root.destroy) # quit button
+quit_button.grid(row=10, column=2)
 
 # info buttons to show calculations
 
@@ -311,9 +316,6 @@ def open_info_index():
     plt.text(1, 1, r"$\frac{n_i}{n_r}$" + " = " + r"$\ _i$" + r"$\n_r$", fontsize = 20)
     plt.axis(False)
     plt.show()
-
-
-
 
 
 def button_info_velocity1():
