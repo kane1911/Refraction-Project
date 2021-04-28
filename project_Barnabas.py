@@ -27,13 +27,10 @@ def refraction_angle(n, incidence_angle):
 def index_of_refraction(i_medium, r_medium):
     """Returns the index of refraction between the incidence medium (i_medium) and the refraction medium (r_medium)."""
 
-    abs_index = {'Air': 1, 'Glass': 1.5, 'Water': 1.333, 'Amber': 1.55,
-                 'Diamond': 2.417}  # obtained from: https://en.wikipedia.org/wiki/List_of_refractive_indices
+    abs_index = {'Air': 1, 'Glass': 1.5, 'Water': 1.333, 'Amber': 1.55,'Diamond': 2.417}  # obtained from: https://en.wikipedia.org/wiki/List_of_refractive_indices
 
-    n_i = abs_index[
-        i_medium]  # finds the index of refraction of the incidence medium from the key provided from the drop down menu
-    n_r = abs_index[
-        r_medium]  # finds the index of refraction of the refraction medium from the key provided from the drop down menu
+    n_i = abs_index[i_medium]  # finds the index of refraction of the incidence medium from the key provided from the drop down menu
+    n_r = abs_index[r_medium]  # finds the index of refraction of the refraction medium from the key provided from the drop down menu
     i_n_r = round(n_r / n_i, 3)  # calcs the relative index of refraction between the media
     return i_n_r
 
@@ -53,22 +50,24 @@ def find_v(abs_n):
     v_formatted = round(v/(10**6), 1) # reformats the velocity. 300000000 m/s becomes 300.0 x 10^6 m/s
     return v_formatted
 
+def draw_coord_axes():
+    """Draws the x and y coordinate axes."""
+    my_canvas.create_line(250, 0, 250, 500)  # y-axis
+    my_canvas.create_line(0, 250, 500, 250)  # x-axis
 
 def clear_canvas():
     """Clears canvas and redraws coordinate axes."""
     my_canvas.delete(tkinter.ALL)
-
-    ####my_canvas.create_arc(250 - 100, 250 - 100, 250 + 100, 250 + 100, start=0, extent=-180, fill="light blue")  # refraction medium
-    my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # redraws semicircle with the colour of the selected refraction medium 
-    my_canvas.create_line(250, 0, 250, 500)  # y-axis
-    my_canvas.create_line(0, 250, 500, 250)  # x-axis
+    #my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=medium_colour(indexmedium2.get())) # redraws semicircle with the colour of the selected refraction medium 
+    draw_coord_axes() # redraws axes
+    
 
 
-def semicircle_colour(r_medium):
+def medium_colour(medium):
     """Returns the colour of the refraction medium as an appropriate string. The r_medium parameter must be set to indexmedium2.get()."""
-    medium_colour = {'Air': 'snow', 'Glass': 'light blue', 'Water': 'royal blue', 'Amber': 'goldenrod1', 'Diamond': 'light grey'} # tkinter colour chart: http://www.science.smith.edu/dftwiki/index.php/Color_Charts_for_TKinter
-    r_colour = medium_colour[r_medium]
-    return r_colour
+    medium_colours = {'Air': 'snow', 'Glass': 'light blue', 'Water': 'royal blue', 'Amber': 'goldenrod1', 'Diamond': 'light grey'} # tkinter colour chart: http://www.science.smith.edu/dftwiki/index.php/Color_Charts_for_TKinter
+    colour = medium_colours[medium]
+    return colour
 
 def scroll_bar(angle):
     """FUnction called each time the scrollbar is moved. the angle parameter does nothing, but has to be there else there is this error:
@@ -97,7 +96,12 @@ def scroll_bar(angle):
                                      message="Invalid input.")  # displays warning pop-up window
 
     #------------------
-    my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium
+    my_canvas.create_rectangle(0,0, 500,500, fill=medium_colour(indexmedium1.get()), outline='') # draws a rectangle with the colour of the incidence medium
+            
+    my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=medium_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium 
+            
+    draw_coord_axes() # redraws axes
+    
     # -------------Draws laser on canvas -------------
     my_canvas.create_line(ind_laser_x(float(scrollbar.get()), 1.25), ind_laser_y(float(scrollbar.get()), 1.25),
                           ind_laser_x(float(scrollbar.get())), ind_laser_y(float(scrollbar.get())),
@@ -117,8 +121,7 @@ def scroll_bar(angle):
 
     # ----------Widgets showing additional calculations
 
-    index_label = tkinter.Label(frame,
-                                text="Refractive index from {} to {}:".format(indexmedium1.get(), indexmedium2.get()))
+    index_label = tkinter.Label(frame, text="Refractive index from {} to {}:".format(indexmedium1.get(), indexmedium2.get()))
     index_label.grid(row=6, column=1)
 
     n_label = tkinter.Label(frame, text=str(n))  # displays the index of refractin between the two selected media
@@ -127,8 +130,7 @@ def scroll_bar(angle):
     i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium1.get()))
     i_medium_v_label.grid(row=7, column=1, sticky="E")
 
-    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(
-        indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
+    i_medium_v = tkinter.Label(frame, text=str(find_v(find_abs_n(indexmedium1.get()))) + " x 10^6 m/s")  # displays the velocity of light in the incidence medium based on its absolute refractive index
     i_medium_v.grid(row=7, column=2)
 
     i_medium_v_label = tkinter.Label(frame, text="Velocity of light in {}:".format(indexmedium2.get()))
@@ -149,22 +151,7 @@ scrollbar.grid(row=1, column = 1)
 scrollbar_label = tkinter.Label(root, text="Degrees")
 scrollbar_label.grid(row=2, column = 1)
 
-# semi-circle as refraction medium
-
-##### my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill="light blue")
-
-
-x1 = 250
-x2 = 250
-y1 = 0
-y2 = 500
-my_canvas.create_line(x1, y1, x2, y2)  # y-axis
-
-x3 = 0
-x4 = 500
-y3 = 250
-y4 = 250
-my_canvas.create_line(x3, y3, x4, y4)  # x-axis
+draw_coord_axes() # draws axes
 
 
 def ind_laser_x(ind_angle, scale=1):
@@ -196,6 +183,8 @@ def refr_laser_y(refr_angle):
 def main():
     """Combines user input from the Spinbox and Comboboxes (drop-down menus) with the refraction_angle function, and displays the output."""
 
+    clear_canvas() # clears canvas
+
     n = index_of_refraction(i_medium=indexmedium1.get(),
                             r_medium=indexmedium2.get())  # gets the index of refraction between the 2 selected media
     incidence_angle = incidence_input.get()  # gets incidence angle from the user's input in the Spinbox
@@ -215,7 +204,11 @@ def main():
                 calculated_angle.grid(row=5, column=2)
             
             # --------------------------
-            my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=semicircle_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium 
+            my_canvas.create_rectangle(0,0, 500,500, fill=medium_colour(indexmedium1.get()), outline='') # draws a rectangle with the colour of the incidence medium
+            
+            my_canvas.create_arc(250-100, 250-100, 250+100, 250+100, start=0, extent=-180, fill=medium_colour(indexmedium2.get())) # draws semicircle with the colour of the selected refraction medium 
+            
+            draw_coord_axes() # redraws axes
             # -------------Draws laser on canvas -------------
             my_canvas.create_line(ind_laser_x(float(incidence_input.get()), 1.25),
                                 ind_laser_y(float(incidence_input.get()), 1.25), ind_laser_x(float(incidence_input.get())),
