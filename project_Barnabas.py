@@ -2,7 +2,7 @@ import tkinter
 from tkinter import ttk
 import math
 from tkinter import messagebox
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 root = tkinter.Tk()
 root.title("Group 19: Angle of Refraction Calculator")
@@ -113,7 +113,7 @@ def scroll_bar(angle):
     my_canvas.create_line(250, 250, refr_laser_x(r_angle), refr_laser_y(r_angle),
                           width=2)  # refracted ray beginning at our origin (0,0)
 
-    tkinter.Button(frame, text="i", command=open_info_index).grid(row=6, column=4)  # shows button when 'calculat' is pressed
+    tkinter.Button(frame, text="i", command="open_info_index").grid(row=6, column=4)  # shows button when 'calculat' is pressed
     tkinter.Button(frame, text="i", command=open_info_velocity1).grid(row=7,
                                                                       column=4)  # shows button when 'calculat' is pressed
     tkinter.Button(frame, text="i", command=open_info_velocity2).grid(row=8,
@@ -301,14 +301,14 @@ tkinter.Button(frame, text = "i", command = open_info_angle).grid(row = 5, colum
 
 
 def button_info_index():
-    tkinter.Button(frame, text = "i", command = open_info_index).grid(row = 6, column = 4) # shows button when 'calculat' is pressed
+    tkinter.Button(frame, text = "i", command = "open_info_index").grid(row = 6, column = 4) # shows button when 'calculat' is pressed
 
-def open_info_index():
-    plt.figure()
-    plt.text(0.5, 0.5, r"$\frac{\sin(\theta_i)}{\sin(\theta_r)}$" + " = " r"$\frac{c_i}{c_r}$" + " = " + "n", fontsize=20)
-    plt.text(1, 1, r"$\frac{n_i}{n_r}$" + " = " + r"$\ _i$" + r"$\n_r$", fontsize = 20)
-    plt.axis(False)
-    plt.show()
+# def open_info_index():
+#     plt.figure()
+#     plt.text(0.5, 0.5, r"$\frac{\sin(\theta_i)}{\sin(\theta_r)}$" + " = " r"$\frac{c_i}{c_r}$" + " = " + "n", fontsize=20)
+#     plt.text(1, 1, r"$\frac{n_i}{n_r}$" + " = " + r"$\ _i$" + r"$\n_r$", fontsize = 20)
+#     plt.axis(False)
+#     plt.show()
 
 
 def button_info_velocity1():
