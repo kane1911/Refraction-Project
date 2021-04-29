@@ -5,7 +5,7 @@ from tkinter import messagebox
 import sys
 import os
 import webbrowser
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 root = tkinter.Tk()
