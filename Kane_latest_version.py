@@ -295,6 +295,9 @@ quit_button.grid(row=11, column=2)
 def myDelete():
     indexmedium1.set('Air')
     indexmedium2.set('Glass')
+    scrollbar.set(0)
+    incidence_input = tkinter.Spinbox(frame, from_=0, to=90, wrap=True, textvariable="0")  # sets Spinbox to
+    incidence_input.grid(row=1, column=2)
 
 #delete button
 DeleteButton = tkinter.Button(frame, text="Reset", command=lambda:[clear_canvas(),myDelete()])
